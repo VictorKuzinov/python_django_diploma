@@ -1,5 +1,7 @@
 asgiref==3.11.1
+-e git+ssh://git@gitlab.skillbox.ru/viktor_kuzinov/python_django_diploma.git@7d212cc8119492d1bc193643cd59c5c95e34f96b#egg=diploma_frontend&subdirectory=diploma-frontend
 Django==5.2.11
 django-environ==0.13.0
+djangorestframework==3.16.1
+pillow==12.1.1
 sqlparse==0.5.5
--e ./diploma-frontend

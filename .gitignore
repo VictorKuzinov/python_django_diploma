@@ -23,13 +23,16 @@ build/
 dist/
 *.egg-info/
 .eggs/
-
+diploma-frontend/
+diploma_frontend.egg-info/
 # ----------------------------
 # Django
 # ----------------------------
 db.sqlite3
 *.sqlite3
-media/
+media/*
+!media/avatars
+!media/avatars/default.png
 staticfiles/
 
 # ----------------------------
