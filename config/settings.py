@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "apps.order.apps.OrderConfig",
     "apps.payment.apps.PaymentConfig",
     "apps.userprofile.apps.UserprofileConfig",
-    "apps.tags.apps.TagsConfig",
 ]
 
 MIDDLEWARE = [
