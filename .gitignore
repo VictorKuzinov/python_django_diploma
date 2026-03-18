@@ -31,7 +31,8 @@ diploma_frontend.egg-info/
 db.sqlite3
 *.sqlite3
 media/*
-!media/avatars
+!media/avatars/
+media/avatars/*
 !media/avatars/default.png
 staticfiles/
 
