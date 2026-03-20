@@ -4,6 +4,10 @@ from .views import (
     CategoryListView,
     CatalogListView,
     TagListView,
+    ProductDetailView,
+    ReviewCreateView,
+    ProductPopularView,
+    ProductLimitedView,
 )
 
 urlpatterns = [
@@ -14,6 +18,13 @@ urlpatterns = [
     path("tags", TagListView.as_view(), name="tags"),
     path("tags/", TagListView.as_view()),
     path("banners/", views.banners),
-    path("products/popular/", views.products_popular),
-    path("products/limited/", views.products_limited),
+    path("banners", views.banners),
+    path("product/<int:pk>", ProductDetailView.as_view(), name="product-detail"),
+    path("product/<int:pk>/", ProductDetailView.as_view()),
+    path("product/<int:pk>/reviews", ReviewCreateView.as_view(), name="review-create"),
+    path("product/<int:pk>/reviews/", ReviewCreateView.as_view()),
+    path("products/popular", ProductPopularView.as_view(), name="product-popular"),
+    path("products/popular/", ProductPopularView.as_view()),
+    path("products/limited", ProductLimitedView.as_view(), name="product-limited"),
+    path("products/limited/", ProductLimitedView.as_view()),
 ]
