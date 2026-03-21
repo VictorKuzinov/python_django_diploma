@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Tag, ProductImage, Product
+from .models import Category, Tag, ProductImage, Product, Review, Specification
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -124,3 +124,77 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_rating(self, obj):
         return float(obj.rating) if obj.rating is not None else None
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """
+        Сериализатор отзыва о товаре.
+
+        Используется для расчета рейтинг товара
+    """
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
+    class Meta:
+        model = Review
+        fields = [
+            "author",
+            "email",
+            "text",
+            "rate",
+            "date",
+        ]
+
+
+class SpecificationSerializer(serializers.ModelSerializer):
+    """
+        Сериализатор характеристик товара.
+    """
+    class Meta:
+        model = Specification
+        fields = ["name", "value"]
+
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор детальной информации о товаре.
+    """
+
+    freeDelivery = serializers.BooleanField(source="free_delivery")
+    category = serializers.IntegerField(source="category_id")
+    images = ProductImageSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
+    price = serializers.SerializerMethodField()
+    rating = serializers.SerializerMethodField()
+    fullDescription = serializers.CharField(source="description")
+    specifications = SpecificationSerializer(many=True, read_only=True)
+    reviews = ReviewSerializer(source="reviews_list", many=True, read_only=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            "id",
+            "category",
+            "price",
+            "count",
+            "date",
+            "title",
+            "description",
+            "fullDescription",
+            "freeDelivery",
+            "images",
+            "tags",
+            "reviews",
+            "specifications",
+            "rating",
+        ]
+
+    def get_price(self, obj):
+        return float(obj.price) if obj.price is not None else None
+
+    def get_rating(self, obj):
+        return float(obj.rating) if obj.rating is not None else None
+
+
+class ReviewCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["text", "rate"]

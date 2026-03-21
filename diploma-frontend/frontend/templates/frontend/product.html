@@ -146,10 +146,10 @@
                     <div class="form-group">
                       <div class="row">
                         <div class="row-block">
-                          <input class="form-input" id="name" name="name" type="text" placeholder="Name" v-model="review.author"/>
+                          <input class="form-input" id="name" name="name" type="text" placeholder="Name" v-model="review.author" :readonly="review.author"/>
                         </div>
                         <div class="row-block">
-                          <input class="form-input" id="email" name="email" type="text" placeholder="Email" v-model="review.email"/>
+                          <input class="form-input" id="email" name="email" type="text" placeholder="Email" v-model="review.email" :readonly="review.email"/>
                         </div>
                         <div class="row-block">
                           <select name="rate" id="rate" v-model="review.rate">

@@ -19,26 +19,30 @@ createApp({
 			return cookieValue
 		},
 		postData(url, payload, headers = {}) {
-			return axios
-				.post(url, payload, {
-					headers: {
-						'X-CSRFToken': this.getCookie('csrftoken'),
-						...(headers || {}),
-					},
-				})
-				.then((response) => {
-					return {
-						data: response?.data,
-						status: response.status,
-					}
-					return response.data ? response.data : response.json?.()
-				})
-				.catch((error) => {
-					console.warn(
-						`Метод '${url}' вернул статус код ${error.response.status}`
-					)
-					throw new Error()
-				})
+		  return axios
+			.post(url, payload, {
+			  headers: {
+				'X-CSRFToken': this.getCookie('csrftoken'),
+				...(headers || {}),
+			  },
+			})
+			.then((response) => {
+			  return {
+				data: response?.data,
+				status: response.status,
+			  }
+			})
+			.catch((error) => {
+			  const status = error?.response?.status || 0
+
+			  console.warn(`Метод '${url}' вернул статус код ${status}`)
+
+			  throw {
+				status: status,
+				response: error?.response || null,
+				originalError: error,
+			  }
+			})
 		},
 		getData(url, payload) {
 			return axios

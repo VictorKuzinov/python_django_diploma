@@ -1,7 +1,9 @@
 from urllib.parse import urlparse, parse_qs
 
 from rest_framework.decorators import api_view
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from rest_framework.response import Response
 
 from apps.catalog.models import Category, Product, Tag
@@ -9,6 +11,9 @@ from apps.catalog.serializers import (
     CategorySerializer,
     ProductSerializer,
     TagSerializer,
+    ProductDetailSerializer,
+    ReviewSerializer,
+    ReviewCreateSerializer,
 )
 
 from apps.catalog.pagination import CatalogPagination
@@ -84,6 +89,51 @@ class TagListView(ListAPIView):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
 
+
+class ProductDetailView(RetrieveAPIView):
+    """
+        Детальная информация о товаре.
+    """
+    serializer_class = ProductDetailSerializer
+    queryset = Product.objects.select_related("category").prefetch_related(
+        "images",
+        "tags",
+        "reviews_list",
+        "specifications"
+    )
+
+
+class ReviewCreateView(CreateAPIView):
+    serializer_class = ReviewCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        review = serializer.save(
+            product_id=self.kwargs["pk"],
+            author=request.user.get_full_name() or request.user.username,
+            email=request.user.email,
+        )
+
+        reviews = review.product.reviews_list.all()
+        response_serializer = ReviewSerializer(reviews, many=True)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductPopularView(ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.order_by("sort_index", "-sold_count")[:8]
+
+
+class ProductLimitedView(ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(limited_edition=True)[:16]
 
 @api_view(["GET"])
 def banners(request):

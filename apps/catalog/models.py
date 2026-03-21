@@ -108,6 +108,21 @@ class Product(models.Model):
         verbose_name="Бесплатная доставка"
     )
 
+    sort_index = models.IntegerField(
+        default=0,
+        verbose_name="Индекс сортировки"
+    )
+
+    sold_count = models.IntegerField(
+        default=0,
+        verbose_name="Количество покупок"
+    )
+
+    limited_edition = models.BooleanField(
+        default=False,
+        verbose_name="Ограниченный тираж"
+    )
+
     tags = models.ManyToManyField(
         "Tag",
         related_name="products",
@@ -193,3 +208,77 @@ class Tag(models.Model):
         Строковое представление тега.
         """
         return self.name
+
+
+class Review(models.Model):
+    """
+    Модель отзывов о товаре.
+
+    Используется для хранения пользовательских отзывов
+    и расчёта рейтинга товара.
+    """
+
+    product = models.ForeignKey(
+        "Product",
+        on_delete=models.CASCADE,
+        related_name="reviews_list",
+        verbose_name="Товар"
+    )
+    author = models.CharField(
+        max_length=100,
+        verbose_name="Автор отзыва"
+    )
+    email = models.EmailField(
+        max_length=254,
+        verbose_name="Email"
+    )
+    text = models.TextField(
+        verbose_name="Содержание отзыва"
+    )
+    rate = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Оценка"
+    )
+    date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания"
+    )
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+        ordering = ["-date"]
+
+    def __str__(self):
+        """
+        Строковое представление отзыва.
+        """
+        return f"{self.author} → {self.product.title}"
+
+
+class Specification(models.Model):
+    product = models.ForeignKey(
+        "Product",
+        on_delete=models.CASCADE,
+        related_name="specifications",
+        verbose_name="Товар"
+    )
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Имя характеристики"
+    )
+
+    value = models.TextField(
+        verbose_name="Значение характеристики"
+    )
+
+    class Meta:
+        verbose_name = "Характеристика"
+        verbose_name_plural = "Характеристики"
+
+    def __str__(self):
+        """
+           Строковое представление имени характеристики.
+       """
+
+        return f"{self.product.title} — {self.name}: {self.value}"
