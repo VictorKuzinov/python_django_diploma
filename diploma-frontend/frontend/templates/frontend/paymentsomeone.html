@@ -29,10 +29,14 @@
             <div class="form-group"><a class="btn btn_success Payment-generate" href="#">Сгенирировать случайный счет</a>
             </div>
           </div>
-          <div class="Payment-pay"><a class="btn btn_primary" href="/progress-payment/">Оплатить</a>
+          <div class="Payment-pay">
+            <button class="btn btn_primary" type="submit">Оплатить</button>
           </div>
         </form>
       </div>
     </div>
   </div>
+{% endblock %}
+{% block mixins %}
+<script src="{% static 'frontend/assets/js/payment-someone.js' %}"></script>
 {% endblock %}

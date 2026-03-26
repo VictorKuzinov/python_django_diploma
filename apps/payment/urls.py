@@ -1,5 +1,13 @@
 from django.urls import path
 
-urlpatterns = [
+from .views import PaymentView
 
+urlpatterns = [
+    path("payment/<int:pk>",
+        PaymentView.as_view(),
+        name = "payment"
+    ),
+path("payment/<int:pk>/",
+        PaymentView.as_view()
+    ),
 ]

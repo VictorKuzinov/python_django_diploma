@@ -78,6 +78,8 @@ class SignUpView(APIView):
         записывает его в first_name, затем авторизует
         нового пользователя через login().
         """
+        print(request.data)
+        print(type(request.data))
         try:
             if not request.data:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
