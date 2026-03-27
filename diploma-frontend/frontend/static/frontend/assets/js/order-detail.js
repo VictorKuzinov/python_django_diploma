@@ -2,7 +2,7 @@ var mix = {
 	methods: {
 		getOrder(orderId) {
 			if(typeof orderId !== 'number') return
-			this.getData(`/api/order/${orderId}`)
+			this.getData(`/api/orders/${orderId}`)
 				.then(data => {
 					this.orderId = data.id
 					this.createdAt = data.createdAt
@@ -24,10 +24,14 @@ var mix = {
 		},
 		confirmOrder() {
 			if (this.orderId !== null) {
-				this.postData(`/api/order/${this.orderId}`, { ...this })
+				this.postData(`/api/orders/${this.orderId}`, { ...this })
 					.then(({ data: { orderId } }) => {
 						alert('Заказ подтвержден')
-						location.replace(`/payment/${orderId}/`)
+						if (this.paymentType === 'someone') {
+							location.replace(`/payment-someone/${orderId}/`)
+						} else {
+							location.replace(`/payment/${orderId}/`)
+						}
 					})
 					.catch(() => {
 						console.warn('Ошибка при подтверждения заказа')
@@ -39,7 +43,7 @@ var mix = {
 			const password = document.querySelector('#password').value
 			this.postData('/api/sign-in', JSON.stringify({ username, password }))
 				.then(({ data, status }) => {
-					location.assign(`/orders/${this.orderId}`)
+					location.assign(`/orders/${this.orderId}/`)
 				})
 				.catch(() => {
 					alert('Ошибка авторизации')

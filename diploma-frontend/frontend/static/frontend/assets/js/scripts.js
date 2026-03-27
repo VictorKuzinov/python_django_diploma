@@ -170,8 +170,8 @@ var form = function(){
                             break;
                         case 'pay':
                             var val = $this.val().replaceAll(' ', '');
-                            if (val.length !== 16) {
-                                message += 'Некорректный номер карты.';
+                            if (val.length !== 8) {
+                                message += 'Некорректный номер для оплаты.';
                                 error = true;
                             }
                             break;
@@ -213,7 +213,7 @@ var form = function(){
             $select.wrap('<div class="form-selectWrap"></div>');
             $('[data-mask]').each(function(){
                 var $this = $(this);
-                $this.mask($this.data('mask'), {placeholder:'x'});
+                $this.mask($this.attr('mask'), {placeholder:'x'});
             });
         }
     };
