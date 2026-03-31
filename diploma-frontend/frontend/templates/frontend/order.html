@@ -76,7 +76,7 @@
               <div class="form-group">
                 <div>
                   <label class="toggle">
-                    <input type="radio" v-model="deliveryType" name="delivery" value="ordinary" checked="checked"/><span class="toggle-box"></span><span class="toggle-text">Обычная доставка</span>
+                    <input type="radio" v-model="deliveryType" name="delivery" value="normal" checked="checked"/><span class="toggle-box"></span><span class="toggle-text">Обычная доставка</span>
                   </label>
                 </div>
                 <div>
@@ -123,7 +123,6 @@
                 <h2 class="Section-title">Шаг 4. Подтверждение заказа
                 </h2>
               </header>
-              <!--+div.Order.-confirmation-->
               <div class="Order-infoBlock">
                 <div class="Order-personal">
                   <div class="row">
@@ -176,7 +175,6 @@
                   </div>
                 </div>
                 <div class="Cart Cart_order">
-                  <!-- Товар на оплату -->
                   <div v-for="product in products" class="Cart-product">
                     <div class="Cart-block Cart-block_row">
                       <div class="Cart-block Cart-block_pict">
@@ -197,14 +195,28 @@
                       <div class="Cart-block Cart-block_amount">${ product.count }$ шт.
                       </div>
                     </div>
-                    </div>
                   </div>
-                  <!-- Товар на оплату -->
 
                   <div class="Cart-total">
                     <div class="Cart-block Cart-block_total">
                       <strong class="Cart-title">Итого:</strong>
-                      <span class="Cart-price">${ products.reduce((acc, el) => {return acc += (el.price * el.count)}, 0) }$$</span>
+                      <span class="Cart-price">
+                        ${ (() => {
+                            const itemsTotal = products.reduce((acc, el) => {
+                              return acc + (el.price * el.count);
+                            }, 0);
+
+                            let deliveryCost = 0;
+
+                            if (deliveryType === 'express') {
+                              deliveryCost = 500;
+                            } else {
+                              deliveryCost = itemsTotal < 2000 ? 200 : 0;
+                            }
+
+                            return itemsTotal + deliveryCost;
+                        })() }$
+                      </span>
                     </div>
                     <div class="Cart-block">
                       <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>

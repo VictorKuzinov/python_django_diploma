@@ -1,5 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -282,3 +284,72 @@ class Specification(models.Model):
        """
 
         return f"{self.product.title} — {self.name}: {self.value}"
+
+
+class Sale(models.Model):
+    product = models.ForeignKey(
+        "Product",
+        on_delete=models.CASCADE,
+        related_name="sales",
+        verbose_name="Товар"
+    )
+
+    title = models.CharField(
+        max_length=100,
+        verbose_name="Название акции"
+    )
+
+    sale_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Цена со скидкой"
+    )
+
+    date_from =  models.DateTimeField(
+        verbose_name="Дата начала акции"
+    )
+
+    date_to =  models.DateTimeField(
+        verbose_name="Дата окончания акции"
+    )
+
+    created_at =  models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания акции"
+    )
+
+    class Meta:
+        verbose_name = "Акция"
+        verbose_name_plural = "Акции"
+
+    def __str__(self):
+        """
+           Строковое представление имени акции.
+       """
+
+        return f"{self.title} ({self.product.title})"
+
+    from django.core.exceptions import ValidationError
+
+    def clean(self):
+        errors = {}
+
+        # Проверка даьы
+        if self.date_to <= self.date_from:
+            errors['date_to'] = "Дата окончания должна быть позже даты начала"
+
+        # проверка цены акции
+        if self.product and self.sale_price >= self.product.price:
+            errors['sale_price'] = "Цена акции должна быть меньше цены товара"
+
+        if errors:
+            raise ValidationError(errors)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    @property
+    def is_current(self):
+        now = timezone.now()
+        return self.date_from <= now <= self.date_to

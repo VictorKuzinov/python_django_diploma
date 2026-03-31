@@ -6,6 +6,7 @@ from .models import (
     Tag,
     Review,
     Specification,
+    Sale,
 )
 
 
@@ -29,3 +30,4 @@ admin.site.register(ProductImage)
 admin.site.register(Tag)
 admin.site.register(Review)
 admin.site.register(Specification)
+admin.site.register(Sale)

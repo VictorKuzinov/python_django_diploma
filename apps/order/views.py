@@ -1,9 +1,10 @@
-from django.contrib.auth.models import User
-from rest_framework.generics import RetrieveAPIView, CreateAPIView, get_object_or_404
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from django.utils import timezone
 
 from .models import Order, OrderItem, Product
+from apps.catalog.models import Sale
 from .serializers import OrderSerializer
 
 
@@ -32,19 +33,25 @@ class OrderView(ViewSet):
             order.full_name = request.user.username or request.user.first_name
 
         order.total_cost = 0
+        date_now = timezone.now()
 
         for product in products:
             count = basket.get(str(product.id), 0)
+            active_sale = Sale.objects.filter(product=product, date_from__lte=date_now, date_to__gte=date_now).first()
+            if active_sale:
+                actual_price = active_sale.sale_price
+            else:
+                actual_price = product.price
 
             OrderItem.objects.create(
                 order=order,
                 product=product,
-                price=product.price,
+                price=actual_price,
                 count=count
             )
 
-            order.total_cost += product.price * count
-            order.save()
+            order.total_cost += actual_price * count
+        order.save()
         return Response({"orderId": order.id}, status=200)
 
     def retrieve(self, request, pk=None):

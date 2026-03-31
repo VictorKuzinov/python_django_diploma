@@ -6,7 +6,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 
-from apps.catalog.models import Category, Product, Tag
+from apps.catalog.models import (
+    Category,
+    Product,
+    Tag,
+    Sale,
+)
 from apps.catalog.serializers import (
     CategorySerializer,
     ProductSerializer,
@@ -14,9 +19,11 @@ from apps.catalog.serializers import (
     ProductDetailSerializer,
     ReviewSerializer,
     ReviewCreateSerializer,
+    SaleSerializer,
 )
 
-from apps.catalog.pagination import CatalogPagination
+from .pagination import CatalogPagination, SalePagination
+
 class CategoryListView(ListAPIView):
     serializer_class = CategorySerializer
     queryset = (
@@ -135,6 +142,22 @@ class ProductLimitedView(ListAPIView):
     def get_queryset(self):
         return Product.objects.filter(limited_edition=True)[:16]
 
-@api_view(["GET"])
-def banners(request):
-    return Response([])
+
+class SaleListView(ListAPIView):
+    serializer_class = SaleSerializer
+    pagination_class = SalePagination
+
+    def get_queryset(self):
+        return Sale.objects.order_by("-created_at")
+
+
+class BannerListView(ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        queryset = Product.objects.select_related("category").prefetch_related(
+        "images",
+        "tags",
+        "reviews_list",
+        ).distinct()[:3]
+        return queryset

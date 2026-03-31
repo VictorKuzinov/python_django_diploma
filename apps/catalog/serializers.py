@@ -1,5 +1,7 @@
+from itertools import product
+
 from rest_framework import serializers
-from .models import Category, Tag, ProductImage, Product, Review, Specification
+from .models import Category, Tag, ProductImage, Product, Review, Specification, Sale
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -198,3 +200,38 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["text", "rate"]
+
+
+class SaleSerializer(serializers.ModelSerializer):
+
+    id = serializers.IntegerField(source="product.id", read_only=True)
+    price = serializers.DecimalField(source="product.price", max_digits=10, decimal_places=2, read_only=True)
+    salePrice = serializers.DecimalField(source="sale_price", max_digits=10, decimal_places=2, read_only=True)
+    dateFrom = serializers.SerializerMethodField()
+    dateTo = serializers.SerializerMethodField()
+    title = serializers.CharField(source="product.title", read_only=True)
+    images = ProductImageSerializer(source="product.images", many=True,read_only=True)
+
+
+    class Meta:
+        model = Sale
+        fields = ["id",
+                  "price",
+                  "salePrice",
+                  "dateFrom",
+                  "dateTo",
+                  "title",
+                  "images"
+        ]
+
+    def get_dateFrom(self, obj):
+        return obj.date_from.strftime("%m-%d")
+
+    def get_dateTo(self, obj):
+        return obj.date_to.strftime("%m-%d")
+
+    def get_price(self, obj):
+        return float(obj.price) if obj.price is not None else None
+
+    def get_sale_price(self, obj):
+        return float(obj.salePrice) if obj.salePrice is not None else None

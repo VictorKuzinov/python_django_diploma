@@ -46,7 +46,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
         for item in items:
             product = item.product
-            product.count = item.count  # подмена количества
+            product.count = item.count # подмена количества
+            product.price = item.price # подмена цены
             products.append(product)
 
         return ProductSerializer(products, many=True).data
