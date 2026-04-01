@@ -1,10 +1,11 @@
 from urllib.parse import urlparse, parse_qs
 
-from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
+from django.utils import timezone
+from django.db.models import Prefetch
 
 from apps.catalog.models import (
     Category,
@@ -28,18 +29,19 @@ class CategoryListView(ListAPIView):
     serializer_class = CategorySerializer
     queryset = (
             Category.objects
-            .select_related("parent")
-            .filter(parent=None)
-            .prefetch_related("children")
+            .select_related("parent").filter(parent=None, is_active=True)
+            .prefetch_related(
+                Prefetch("children", queryset=Category.objects.filter(is_active=True)
+                )
+            )
     )
-
 
 class CatalogListView(ListAPIView):
     serializer_class = ProductSerializer
     pagination_class = CatalogPagination
 
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = Product.objects.filter(is_deleted=False)
         name = self.request.query_params.get("filter[name]")
         min_price = self.request.query_params.get("filter[minPrice]")
         max_price = self.request.query_params.get("filter[maxPrice]")
@@ -107,7 +109,7 @@ class ProductDetailView(RetrieveAPIView):
         "tags",
         "reviews_list",
         "specifications"
-    )
+    ).filter(is_deleted=False)
 
 
 class ReviewCreateView(CreateAPIView):
@@ -133,14 +135,14 @@ class ProductPopularView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        return Product.objects.order_by("sort_index", "-sold_count")[:8]
+        return Product.objects.filter(is_deleted=False).order_by("sort_index", "-sold_count")[:8]
 
 
 class ProductLimitedView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        return Product.objects.filter(limited_edition=True)[:16]
+        return Product.objects.filter(is_deleted=False, limited_edition=True)[:16]
 
 
 class SaleListView(ListAPIView):
@@ -148,7 +150,11 @@ class SaleListView(ListAPIView):
     pagination_class = SalePagination
 
     def get_queryset(self):
-        return Sale.objects.order_by("-created_at")
+        date_now = timezone.now()
+        return (Sale.objects.filter(product__is_deleted=False,
+                                   date_from__lte=date_now,
+                                   date_to__gte=date_now).
+                order_by("-created_at"))
 
 
 class BannerListView(ListAPIView):
@@ -159,5 +165,5 @@ class BannerListView(ListAPIView):
         "images",
         "tags",
         "reviews_list",
-        ).distinct()[:3]
+        ).filter(is_deleted=False).distinct()[:3]
         return queryset

@@ -125,6 +125,10 @@ class Product(models.Model):
         verbose_name="Ограниченный тираж"
     )
 
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Мягко удалён")
+
     tags = models.ManyToManyField(
         "Tag",
         related_name="products",
@@ -328,8 +332,6 @@ class Sale(models.Model):
        """
 
         return f"{self.title} ({self.product.title})"
-
-    from django.core.exceptions import ValidationError
 
     def clean(self):
         errors = {}

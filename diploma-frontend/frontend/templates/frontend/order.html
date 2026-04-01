@@ -209,9 +209,9 @@
                             let deliveryCost = 0;
 
                             if (deliveryType === 'express') {
-                              deliveryCost = 500;
+                              deliveryCost = Number(expressDeliveryPrice);
                             } else {
-                              deliveryCost = itemsTotal < 2000 ? 200 : 0;
+                              deliveryCost = itemsTotal < Number(freeDeliveryThreshold) ? Number(normalDeliveryPrice) : 0;
                             }
 
                             return itemsTotal + deliveryCost;

@@ -16,7 +16,9 @@ var mix = {
 					this.status = data.status
 					this.totalCost = data.totalCost
 					this.products = data.products
-					console.log(this.products)
+                                        this.expressDeliveryPrice = data.expressDeliveryPrice
+					this.normalDeliveryPrice = data.normalDeliveryPrice
+					this.freeDeliveryThreshold = data.freeDeliveryThreshold
 					if (typeof data.paymentError !== 'undefined') {
 						this.paymentError = data.paymentError
 					}
@@ -72,6 +74,9 @@ var mix = {
 			totalCost: null,
 			products: [],
 			paymentError: null,
+			expressDeliveryPrice: 500,
+			normalDeliveryPrice: 200,
+			freeDeliveryThreshold: 2000,
 		}
 	},
 }
