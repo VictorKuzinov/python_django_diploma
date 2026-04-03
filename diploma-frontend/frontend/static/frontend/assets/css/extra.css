@@ -5254,3 +5254,19 @@ a.Cart-title {
 .Auth .sub-link:hover {
   border-bottom: 1px solid #0063d1;
 }
+.Card .Card-description.Card-priceOld {
+    color: #999 !important;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    text-decoration: line-through;
+    opacity: 1 !important;
+    margin-bottom: 4px;
+}
+
+.Card .Card-description.Card-priceNew {
+    color: #e53935 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    opacity: 1 !important;
+    margin-top: 0 !important;
+}

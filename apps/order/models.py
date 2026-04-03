@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 from apps.catalog.models import Product
 
@@ -101,6 +102,10 @@ class Order(models.Model):
         verbose_name="Дата и время создания заказа"
     )
 
+    is_deleted = models.BooleanField(
+        default=False,
+        verbose_name="Мягко удален")
+
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
@@ -146,3 +151,42 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product} - {self.count} шт., стоимость: {(self.price * self.count)}"
+
+
+class DeliverySettings(models.Model):
+    express_delivery_price = models.DecimalField(
+        default=500,
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Стоимость экспресс доставки"
+    )
+
+    normal_delivery_price = models.DecimalField(
+        default=200,
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Стоимость обычной доставки"
+    )
+
+    free_delivery_threshold = models.DecimalField(
+        default=2000,
+        max_digits=10,
+        decimal_places=2,
+        verbose_name="Порог бесплатной доставки"
+    )
+
+    class Meta:
+        verbose_name = "Настройки доставки магазина"
+        verbose_name_plural = "Настройки доставки магазина"
+
+    def save(self, *args, **kwargs):
+        if not self.pk and DeliverySettings.objects.exists():
+            raise ValidationError("Можно создать только одну запись настроек доставки")
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return (
+            f"Экспресс: {self.express_delivery_price} | "
+            f"Обычная: {self.normal_delivery_price} | "
+            f"Порог: {self.free_delivery_threshold}"
+        )
