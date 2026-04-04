@@ -118,7 +118,17 @@ class ProfileAvatarView(APIView):
         avatar_file = request.FILES.get("avatar")
 
         if not avatar_file:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data={"error": "Файл аватара не передан."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # проверка, что файл изображение
+        if not avatar_file.content_type.startswith("image/"):
+            return Response(
+                data={"error": "Можно загружать только изображения."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         # ограничение из ТЗ: не более 2 МБ
         if avatar_file.size > 2 * 1024 * 1024:

@@ -41,7 +41,10 @@ class CatalogListView(ListAPIView):
     pagination_class = CatalogPagination
 
     def get_queryset(self):
-        queryset = Product.objects.filter(is_deleted=False)
+        queryset = Product.objects.filter(
+            is_deleted=False,
+            category__is_active=True
+        )
         name = self.request.query_params.get("filter[name]")
         min_price = self.request.query_params.get("filter[minPrice]")
         max_price = self.request.query_params.get("filter[maxPrice]")
@@ -104,12 +107,17 @@ class ProductDetailView(RetrieveAPIView):
         Детальная информация о товаре.
     """
     serializer_class = ProductDetailSerializer
-    queryset = Product.objects.select_related("category").prefetch_related(
-        "images",
-        "tags",
-        "reviews_list",
-        "specifications"
-    ).filter(is_deleted=False)
+    queryset = (Product.objects.select_related("category")
+                .prefetch_related(
+                    "images",
+                    "tags",
+                    "reviews_list",
+                    "specifications"
+                ).filter(
+                    is_deleted=False,
+                    category__is_active=True
+                )
+    )
 
 
 class ReviewCreateView(CreateAPIView):
@@ -135,14 +143,24 @@ class ProductPopularView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        return Product.objects.filter(is_deleted=False).order_by("sort_index", "-sold_count")[:8]
+        return (
+            Product.objects.filter(
+                is_deleted=False,
+                category__is_active=True,
+            )
+            .order_by("sort_index", "-sold_count")[:8]
+        )
 
 
 class ProductLimitedView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        return Product.objects.filter(is_deleted=False, limited_edition=True)[:16]
+        return Product.objects.filter(
+                    is_deleted=False,
+                    limited_edition=True,
+                    category__is_active=True,
+                )[:16]
 
 
 class SaleListView(ListAPIView):
@@ -152,18 +170,25 @@ class SaleListView(ListAPIView):
     def get_queryset(self):
         date_now = timezone.now()
         return (Sale.objects.filter(product__is_deleted=False,
-                                   date_from__lte=date_now,
-                                   date_to__gte=date_now).
-                order_by("-created_at"))
+                                    product__category__is_active=True,
+                                    date_from__lte=date_now,
+                                    date_to__gte=date_now
+                                    ).order_by("-created_at"))
 
 
 class BannerListView(ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        queryset = Product.objects.select_related("category").prefetch_related(
-        "images",
-        "tags",
-        "reviews_list",
-        ).filter(is_deleted=False).distinct()[:3]
+        queryset = (Product.objects.select_related("category")
+            .prefetch_related(
+                "images",
+                "tags",
+                "reviews_list",
+            ).filter(
+                is_deleted=False,
+                category__is_active=True
+                ).distinct()[:3]
+        )
+
         return queryset
