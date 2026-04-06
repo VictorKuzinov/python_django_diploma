@@ -18,5 +18,5 @@ urlpatterns = [
     path('progress-payment/', TemplateView.as_view(template_name="frontend/progressPayment.html")),
     path('sale', TemplateView.as_view(template_name="frontend/sale.html")),
     path('sign-in/', TemplateView.as_view(template_name="frontend/signIn.html")),
-    path('sign-up/', TemplateView.as_view(template_name="frontend/signUp.html")),
+    path('sign-up', TemplateView.as_view(template_name="frontend/signUp.html")),
 ]

@@ -44,7 +44,7 @@ class CatalogListView(ListAPIView):
         queryset = Product.objects.filter(
             is_deleted=False,
             category__is_active=True
-        )
+        ).order_by("-date")
         name = self.request.query_params.get("filter[name]")
         min_price = self.request.query_params.get("filter[minPrice]")
         max_price = self.request.query_params.get("filter[maxPrice]")
