@@ -1,0 +1,684 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$vkjOgR1tbDtRbRgcPYDNsW$YZoPTt33b+TqpD7msDrH8wuIJx1diJafa0ksZfMb9Mw=",
+      "last_login": "2026-04-06T04:42:13.565Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@example.ru",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-04-06T04:40:06.302Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$Iuvjmg1baG7oFjy5pMBBIj$mDrRjEfDKCkB+SeeJqvw8djKcmy33mUY1yBFNLX5zoU=",
+      "last_login": "2026-04-06T04:45:14.310Z",
+      "is_superuser": false,
+      "username": "test",
+      "first_name": "",
+      "last_name": "",
+      "email": "test@bk.ru",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-03-05T09:14:22.293Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1000000$JILzMZFnzCRL4ZRWhk2nOZ$06eXUL84dR9FGrz4ydUxDXxqSu37ncmTn2NGFDs/I1w=",
+      "last_login": "2026-04-06T04:49:04.172Z",
+      "is_superuser": false,
+      "username": "Jhon",
+      "first_name": "Jhon Smith",
+      "last_name": "",
+      "email": "jhon@bk.ru",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-03-25T10:53:06.290Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "title": "Электроника",
+      "parent": null,
+      "image": "category/Электронника.jpg",
+      "image_alt": "Электроника",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "title": "Ноутбуки",
+      "parent": 1,
+      "image": "category/Ноутбук.jfif",
+      "image_alt": "Сверхлегкие ноутбуки",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "title": "Видеокарты",
+      "parent": 1,
+      "image": "category/Видеокарта.jfif",
+      "image_alt": "Видеокарты для работы",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "title": "Мониторы",
+      "parent": 1,
+      "image": "category/Монитор.jfif",
+      "image_alt": "Мониторы",
+      "is_active": true
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "category": 4,
+      "price": "1999.00",
+      "count": 10,
+      "date": "2026-03-13T04:32:02.588Z",
+      "title": "Монитор ViewSonic",
+      "description": "Современные не дорогие мониторы",
+      "free_delivery": true,
+      "sort_index": 4,
+      "sold_count": 6,
+      "limited_edition": true,
+      "is_deleted": false,
+      "reviews": 7,
+      "rating": "4.86",
+      "tags": [
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "category": 4,
+      "price": "2529.00",
+      "count": 5,
+      "date": "2026-03-13T05:10:30.482Z",
+      "title": "Монитор Acer",
+      "description": "Монитор суперлегкий.",
+      "free_delivery": false,
+      "sort_index": 3,
+      "sold_count": 2,
+      "limited_edition": true,
+      "is_deleted": false,
+      "reviews": 2,
+      "rating": "3.50",
+      "tags": [
+        1,
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "category": 4,
+      "price": "1599.00",
+      "count": 0,
+      "date": "2026-03-13T05:17:52.242Z",
+      "title": "Монитор Lenovo",
+      "description": "Не дорогие мониторы",
+      "free_delivery": false,
+      "sort_index": 3,
+      "sold_count": 0,
+      "limited_edition": true,
+      "is_deleted": false,
+      "reviews": 0,
+      "rating": "0.00",
+      "tags": [
+        1,
+        3,
+        5,
+        6
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "category": 2,
+      "price": "3159.00",
+      "count": 5,
+      "date": "2026-03-13T05:29:15.355Z",
+      "title": "Ноутбук Asus Zenbook Pro",
+      "description": "Тонкий и легкий ноутбук профессионального класса с современнейшими компонентами. Сочетание беспрецедентной скорости с неподражаемым стилем.",
+      "free_delivery": false,
+      "sort_index": 5,
+      "sold_count": 12,
+      "limited_edition": false,
+      "is_deleted": false,
+      "reviews": 12,
+      "rating": "4.80",
+      "tags": [
+        8,
+        10,
+        11,
+        12
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "category": 2,
+      "price": "2995.00",
+      "count": 7,
+      "date": "2026-03-13T05:41:09.831Z",
+      "title": "Ноутбук MSI Thin 15 B12UCX-3061XRU",
+      "description": "Современные, технологичные.",
+      "free_delivery": true,
+      "sort_index": 3,
+      "sold_count": 5,
+      "limited_edition": false,
+      "is_deleted": false,
+      "reviews": 4,
+      "rating": "4.25",
+      "tags": [
+        6,
+        8,
+        10,
+        11,
+        13
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "category": 3,
+      "price": "3496.00",
+      "count": 8,
+      "date": "2026-03-13T05:52:19.429Z",
+      "title": "Видеокарта NVIDIA RTX 5090 D",
+      "description": "GeForce RTX 5090 D на базе Blackwell выводит стабильные трёхзначные FPS в 4K и даже 8K 165 Гц: 21 760 CUDA-ядер, буст 2,4 ГГц, 32 ГБ GDDR7 (1,79 ТБ/с) и DLSS 4 формируют долговременный запас производительности, а три NVENC и два NVDEC девятого поколения позволяют одновременно стримить и записывать 8K-контент без нагрузки на CPU.",
+      "free_delivery": true,
+      "sort_index": 1,
+      "sold_count": 2,
+      "limited_edition": true,
+      "is_deleted": false,
+      "reviews": 7,
+      "rating": "4.86",
+      "tags": [
+        14,
+        15,
+        17,
+        18
+      ]
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "category": 3,
+      "price": "2068.00",
+      "count": 10,
+      "date": "2026-03-13T06:06:18.342Z",
+      "title": "Видеокарта Afox GeForce GTX1660 Ti",
+      "description": "Видеочипсет: nVidia GeForce GTX 1660 Ti, 1500 МГц (турбочастота 1770 МГц), 12 нм;\r\nТип видеопамяти: GDDR6, 12000 МГц, 192 бит;\r\nОбъем видеопамяти: 6 Гб;\r\nИнтерфейс: PCI-E x16, 3.0;\r\nРазъемы: DVI-I, DisplayPort, HDMI;\r\nПитание: 8 pin рекомендовано 450 Вт;",
+      "free_delivery": false,
+      "sort_index": 2,
+      "sold_count": 5,
+      "limited_edition": true,
+      "is_deleted": false,
+      "reviews": 0,
+      "rating": "0.00",
+      "tags": [
+        15,
+        18,
+        19
+      ]
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "src": "product/monitor_viewsonic.jfif",
+      "alt": "Монитор ViewSonic"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 2,
+      "src": "product/monitor_acer.jfif",
+      "alt": "Монитор Acer"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 3,
+      "src": "product/monitor_lenovo.jfif",
+      "alt": "Монитор Lenovo"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 4,
+      "src": "product/noutbook_asuss_e1504ga.avif",
+      "alt": "Ноутбук Asus"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 5,
+      "src": "product/noutbook_msi.jfif",
+      "alt": "Ноутбук MSI"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 6,
+    "fields": {
+      "product": 6,
+      "src": "product/videocard_rtx.jfif",
+      "alt": "Видеокарта RTX"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 7,
+    "fields": {
+      "product": 7,
+      "src": "product/videocard_gtx.webp",
+      "alt": "Видеокарта GTX"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Монитор"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 2,
+    "fields": {
+      "name": "ViewSonic"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 3,
+    "fields": {
+      "name": "FullHD"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Acer"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Lenovo"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 6,
+    "fields": {
+      "name": "Дешево"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 8,
+    "fields": {
+      "name": "Ноутбук"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 10,
+    "fields": {
+      "name": "Тонкий"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 11,
+    "fields": {
+      "name": "Современный"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 12,
+    "fields": {
+      "name": "Asus"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 13,
+    "fields": {
+      "name": "MSI"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 14,
+    "fields": {
+      "name": "RTX"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 15,
+    "fields": {
+      "name": "NVIDIA"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 17,
+    "fields": {
+      "name": "Новинка"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 18,
+    "fields": {
+      "name": "Видеокарта"
+    }
+  },
+  {
+    "model": "catalog.tag",
+    "pk": 19,
+    "fields": {
+      "name": "GTX"
+    }
+  },
+  {
+    "model": "catalog.sale",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "title": "Распродажа ViewSonic",
+      "sale_price": "1799.00",
+      "date_from": "2026-03-30T04:00:00Z",
+      "date_to": "2026-04-08T14:00:00Z",
+      "created_at": "2026-03-30T04:40:12.174Z"
+    }
+  },
+  {
+    "model": "order.order",
+    "pk": 1,
+    "fields": {
+      "user": 4,
+      "full_name": "Виктор Викторович Кузинов",
+      "email": "victor_kuzinov@mail.ru",
+      "phone": "89638568926",
+      "delivery_type": "express",
+      "payment_type": "someone",
+      "city": "Верхняя Пышма",
+      "address": "Свердловская обл., г. Верхняя Пышма, ул. Чкалова, д. 12",
+      "status": "failed",
+      "payment_error": "Платеж не прошел, из-за ошибки валидации счета",
+      "total_cost": "8722.00",
+      "created_at": "2026-03-24T06:31:16.344Z",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "order.order",
+    "pk": 10,
+    "fields": {
+      "user": 2,
+      "full_name": "test",
+      "email": "test@bk.ru",
+      "phone": "89637892546",
+      "delivery_type": "normal",
+      "payment_type": "someone",
+      "city": "Москва",
+      "address": "Шаболовка, 36, 189",
+      "status": "paid",
+      "payment_error": "",
+      "total_cost": "8222.00",
+      "created_at": "2026-03-25T09:39:33.139Z",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "order.order",
+    "pk": 11,
+    "fields": {
+      "user": 2,
+      "full_name": "test",
+      "email": "test@bk.ru",
+      "phone": null,
+      "delivery_type": "normal",
+      "payment_type": "someone",
+      "city": "Mocrdf",
+      "address": "Тверская, 23, 55",
+      "status": "paid",
+      "payment_error": "",
+      "total_cost": "8222.00",
+      "created_at": "2026-03-25T09:40:58.333Z",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "order.order",
+    "pk": 12,
+    "fields": {
+      "user": null,
+      "full_name": "",
+      "email": null,
+      "phone": null,
+      "delivery_type": "normal",
+      "payment_type": "online",
+      "city": "",
+      "address": "",
+      "status": "new",
+      "payment_error": "",
+      "total_cost": "0.00",
+      "created_at": "2026-03-25T09:43:33.480Z",
+      "is_deleted": true
+    }
+  },
+  {
+    "model": "order.order",
+    "pk": 13,
+    "fields": {
+      "user": null,
+      "full_name": "",
+      "email": null,
+      "phone": null,
+      "delivery_type": "normal",
+      "payment_type": "online",
+      "city": "",
+      "address": "",
+      "status": "new",
+      "payment_error": "",
+      "total_cost": "0.00",
+      "created_at": "2026-03-25T09:48:41.958Z",
+      "is_deleted": true
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 1,
+    "fields": {
+      "order": 1,
+      "product": 4,
+      "price": "3159.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 2,
+    "fields": {
+      "order": 1,
+      "product": 5,
+      "price": "2995.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 3,
+    "fields": {
+      "order": 1,
+      "product": 7,
+      "price": "2068.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 22,
+    "fields": {
+      "order": 10,
+      "product": 4,
+      "price": "3159.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 23,
+    "fields": {
+      "order": 10,
+      "product": 5,
+      "price": "2995.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 24,
+    "fields": {
+      "order": 10,
+      "product": 7,
+      "price": "2068.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 25,
+    "fields": {
+      "order": 11,
+      "product": 4,
+      "price": "3159.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 26,
+    "fields": {
+      "order": 11,
+      "product": 5,
+      "price": "2995.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.orderitem",
+    "pk": 27,
+    "fields": {
+      "order": 11,
+      "product": 7,
+      "price": "2068.00",
+      "count": 1
+    }
+  },
+  {
+    "model": "order.deliverysettings",
+    "pk": 1,
+    "fields": {
+      "express_delivery_price": "500.00",
+      "normal_delivery_price": "200.00",
+      "free_delivery_threshold": "2000.00"
+    }
+  },
+  {
+    "model": "userprofile.avatar",
+    "pk": 1,
+    "fields": {
+      "src": "avatars/avatar_small.png",
+      "alt": "avatar_small.png"
+    }
+  },
+  {
+    "model": "userprofile.profile",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "fullName": "test",
+      "phone": null,
+      "balance": "0.00",
+      "avatar": null
+    }
+  },
+  {
+    "model": "userprofile.profile",
+    "pk": 2,
+    "fields": {
+      "user": 4,
+      "fullName": "Jhon",
+      "phone": "89634752365",
+      "balance": "0.00",
+      "avatar": 1
+    }
+  }
+]

@@ -1,7 +1,13 @@
 asgiref==3.11.1
--e git+ssh://git@gitlab.skillbox.ru/viktor_kuzinov/python_django_diploma.git@7d212cc8119492d1bc193643cd59c5c95e34f96b#egg=diploma_frontend&subdirectory=diploma-frontend
+-e git+ssh://git@gitlab.skillbox.ru/viktor_kuzinov/python_django_diploma.git@50ac216242bd91c1da4cdcc2eb22b532a8fc4cbb#egg=diploma_frontend&subdirectory=diploma-frontend
 Django==5.2.11
 django-environ==0.13.0
 djangorestframework==3.16.1
+iniconfig==2.3.0
+packaging==26.0
 pillow==12.1.1
+pluggy==1.6.0
+Pygments==2.20.0
+pytest==9.0.2
+pytest-django==4.12.0
 sqlparse==0.5.5

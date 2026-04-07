@@ -50,7 +50,6 @@ class SignInView(APIView):
 
             login(request, user)
             return Response(status=status.HTTP_200_OK)
-
         except Exception:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -78,8 +77,6 @@ class SignUpView(APIView):
         записывает его в first_name, затем авторизует
         нового пользователя через login().
         """
-        print(request.data)
-        print(type(request.data))
         try:
             if not request.data:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -113,7 +110,6 @@ class SignUpView(APIView):
 
         except Exception:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 class SignOutView(APIView):
     """
