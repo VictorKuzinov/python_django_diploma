@@ -2,7 +2,6 @@
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Django](https://img.shields.io/badge/django-5.2-green)
-![Status](https://img.shields.io/badge/status-in%20development-orange)
 
 Дипломный проект интернет-магазина на Django.
 
