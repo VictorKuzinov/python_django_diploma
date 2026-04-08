@@ -1,10 +1,10 @@
 import json
 
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class SignInView(APIView):
@@ -91,10 +91,7 @@ class SignUpView(APIView):
             if not username or not password:
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            user = User.objects.create_user(
-                username=username,
-                password=password
-            )
+            user = User.objects.create_user(username=username, password=password)
 
             if name:
                 user.first_name = name
@@ -110,6 +107,7 @@ class SignUpView(APIView):
 
         except Exception:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class SignOutView(APIView):
     """

@@ -1,6 +1,5 @@
 from rest_framework import status
 
-
 CATEGORIES_URL = "/api/categories"
 CATALOG_URL = "/api/catalog"
 TAGS_URL = "/api/tags"
@@ -9,7 +8,9 @@ LIMITED_URL = "/api/products/limited"
 SALES_URL = "/api/sales"
 
 
-def test_get_categories_returns_only_active_root_categories(api_client, category, child_category, inactive_category):
+def test_get_categories_returns_only_active_root_categories(
+    api_client, category, child_category, inactive_category
+):
     """
     Проверяем, что categories возвращает только активные корневые категории.
     """
@@ -23,7 +24,9 @@ def test_get_categories_returns_only_active_root_categories(api_client, category
     assert inactive_category.id not in returned_ids
 
 
-def test_get_catalog_returns_active_products_only(api_client, product, deleted_product, inactive_category_product):
+def test_get_catalog_returns_active_products_only(
+    api_client, product, deleted_product, inactive_category_product
+):
     """
     Проверяем, что каталог возвращает только неудалённые товары
     из активных категорий.
@@ -145,7 +148,9 @@ def test_deleted_product_detail_returns_404(api_client, deleted_product):
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_get_popular_products_returns_200(api_client, product, deleted_product, inactive_category_product):
+def test_get_popular_products_returns_200(
+    api_client, product, deleted_product, inactive_category_product
+):
     """
     Проверяем, что popular возвращает только допустимые товары.
     """
@@ -159,7 +164,9 @@ def test_get_popular_products_returns_200(api_client, product, deleted_product, 
     assert inactive_category_product.id not in returned_ids
 
 
-def test_get_limited_products_returns_only_limited(api_client, limited_product, product):
+def test_get_limited_products_returns_only_limited(
+    api_client, limited_product, product
+):
     """
     Проверяем, что limited возвращает только товары limited_edition=True.
     """

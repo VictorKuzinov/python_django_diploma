@@ -6,21 +6,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('order', '0003_order_payment_error'),
+        ("order", "0003_order_payment_error"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DeliverySettings',
+            name="DeliverySettings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('express_delivery_price', models.DecimalField(decimal_places=2, default=500, max_digits=10, verbose_name='Стоимость экспресс доставки')),
-                ('normal_delivery_price', models.DecimalField(decimal_places=2, default=200, max_digits=10, verbose_name='Стоимость обычной доставки')),
-                ('free_delivery_threshold', models.DecimalField(decimal_places=2, default=2000, max_digits=10, verbose_name='Порог бесплатной доставки')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "express_delivery_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=500,
+                        max_digits=10,
+                        verbose_name="Стоимость экспресс доставки",
+                    ),
+                ),
+                (
+                    "normal_delivery_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=200,
+                        max_digits=10,
+                        verbose_name="Стоимость обычной доставки",
+                    ),
+                ),
+                (
+                    "free_delivery_threshold",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=2000,
+                        max_digits=10,
+                        verbose_name="Порог бесплатной доставки",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Настройки доставки магазина',
-                'verbose_name_plural': 'Настройки доставки магазина',
+                "verbose_name": "Настройки доставки магазина",
+                "verbose_name_plural": "Настройки доставки магазина",
             },
         ),
     ]

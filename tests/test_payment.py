@@ -3,11 +3,12 @@ from rest_framework import status
 
 from apps.order.models import OrderStatus
 
-
 pytestmark = pytest.mark.django_db
 
 
-def test_payment_with_valid_even_number_marks_order_paid_and_clears_basket(auth_client, unpaid_order):
+def test_payment_with_valid_even_number_marks_order_paid_and_clears_basket(
+    auth_client, unpaid_order
+):
     """
     Проверяем, что корректный номер счета помечает заказ как оплаченный
     и очищает корзину.
@@ -32,7 +33,9 @@ def test_payment_with_valid_even_number_marks_order_paid_and_clears_basket(auth_
     assert session["basket"] == {}
 
 
-def test_payment_with_empty_number_returns_400_and_marks_order_failed(auth_client, unpaid_order):
+def test_payment_with_empty_number_returns_400_and_marks_order_failed(
+    auth_client, unpaid_order
+):
     """
     Проверяем, что пустой номер счета возвращает 400
     и помечает заказ как неуспешный.
@@ -98,7 +101,9 @@ def test_payment_with_odd_last_digit_returns_400(auth_client, unpaid_order):
 
     unpaid_order.refresh_from_db()
     assert unpaid_order.status == OrderStatus.FAILED
-    assert unpaid_order.payment_error == "Платеж не прошел, из-за ошибки валидации счета"
+    assert (
+        unpaid_order.payment_error == "Платеж не прошел, из-за ошибки валидации счета"
+    )
 
 
 def test_payment_with_zero_last_digit_returns_400(auth_client, unpaid_order):
@@ -115,7 +120,9 @@ def test_payment_with_zero_last_digit_returns_400(auth_client, unpaid_order):
 
     unpaid_order.refresh_from_db()
     assert unpaid_order.status == OrderStatus.FAILED
-    assert unpaid_order.payment_error == "Платеж не прошел, из-за ошибки валидации счета"
+    assert (
+        unpaid_order.payment_error == "Платеж не прошел, из-за ошибки валидации счета"
+    )
 
 
 def test_payment_for_nonexistent_order_returns_404(auth_client):

@@ -15,13 +15,10 @@ class Avatar(models.Model):
     src = models.ImageField(
         upload_to="avatars/",
         default="avatars/default.png",
-        verbose_name="Файл изображения"
+        verbose_name="Файл изображения",
     )
 
-    alt = models.CharField(
-        max_length=128,
-        verbose_name="Описание изображения"
-    )
+    alt = models.CharField(max_length=128, verbose_name="Описание изображения")
 
     class Meta:
         verbose_name = "Аватар"
@@ -53,27 +50,17 @@ class Profile(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="profile",
-        verbose_name="Пользователь"
+        verbose_name="Пользователь",
     )
 
-    fullName = models.CharField(
-        max_length=128,
-        verbose_name="Полное имя"
-    )
+    fullName = models.CharField(max_length=128, verbose_name="Полное имя")
 
     phone = models.CharField(
-        max_length=20,
-        unique=True,
-        blank=True,
-        null=True,
-        verbose_name="Номер телефона"
+        max_length=20, unique=True, blank=True, null=True, verbose_name="Номер телефона"
     )
 
     balance = models.DecimalField(
-        decimal_places=2,
-        max_digits=10,
-        default=0,
-        verbose_name="Баланс пользователя"
+        decimal_places=2, max_digits=10, default=0, verbose_name="Баланс пользователя"
     )
 
     avatar = models.ForeignKey(
@@ -82,7 +69,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
         related_name="profiles",
-        verbose_name="Аватар"
+        verbose_name="Аватар",
     )
 
     class Meta:

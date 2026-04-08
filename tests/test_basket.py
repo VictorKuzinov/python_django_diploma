@@ -175,6 +175,7 @@ def test_delete_without_product_id_returns_400(api_client):
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
+
 def test_add_invalid_count_defaults_to_1(api_client, product):
     """
     Проверяем, что некорректный count заменяется на 1.

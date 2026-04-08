@@ -8,23 +8,53 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Название категории')),
-                ('image', models.ImageField(upload_to='category/', verbose_name='Файл изображения')),
-                ('image_alt', models.CharField(max_length=128, verbose_name='Описание изображения')),
-                ('is_active', models.BooleanField(default=True)),
-                ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='catalog.category', verbose_name='Родительская категория')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=100, verbose_name="Название категории"),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        upload_to="category/", verbose_name="Файл изображения"
+                    ),
+                ),
+                (
+                    "image_alt",
+                    models.CharField(
+                        max_length=128, verbose_name="Описание изображения"
+                    ),
+                ),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "parent",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="catalog.category",
+                        verbose_name="Родительская категория",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Категория',
-                'verbose_name_plural': 'Категории',
+                "verbose_name": "Категория",
+                "verbose_name_plural": "Категории",
             },
         ),
     ]

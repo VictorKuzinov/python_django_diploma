@@ -1,6 +1,5 @@
 from rest_framework import status
 
-
 PROFILE_URL = "/api/profile"
 PROFILE_AVATAR_URL = "/api/profile/avatar"
 PROFILE_PASSWORD_URL = "/api/profile/password"
@@ -92,7 +91,9 @@ def test_post_profile_with_empty_email_returns_400(auth_client):
     assert "email" in response.data
 
 
-def test_post_profile_with_duplicate_email_returns_400(auth_client, another_user, another_profile):
+def test_post_profile_with_duplicate_email_returns_400(
+    auth_client, another_user, another_profile
+):
     """
     Проверяем, что email должен быть уникальным на сайте.
     """

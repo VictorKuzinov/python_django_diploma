@@ -1,6 +1,5 @@
 from rest_framework import status
 
-
 ORDERS_URL = "/api/orders"
 
 
@@ -79,7 +78,9 @@ def test_retrieve_order_returns_200(auth_client, order):
     assert response.data["id"] == order.id
 
 
-def test_confirm_order_with_normal_delivery_adds_delivery_cost(auth_client, order, delivery_settings):
+def test_confirm_order_with_normal_delivery_adds_delivery_cost(
+    auth_client, order, delivery_settings
+):
     """
     Проверяем, что при подтверждении заказа с обычной доставкой
     стоимость доставки добавляется к сумме заказа, если сумма товаров
@@ -106,7 +107,9 @@ def test_confirm_order_with_normal_delivery_adds_delivery_cost(auth_client, orde
     assert order.total_cost == 1200
 
 
-def test_confirm_order_with_express_delivery_adds_express_cost(auth_client, order, delivery_settings):
+def test_confirm_order_with_express_delivery_adds_express_cost(
+    auth_client, order, delivery_settings
+):
     """
     Проверяем, что при экспресс-доставке к сумме заказа
     добавляется express_delivery_price.

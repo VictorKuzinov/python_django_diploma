@@ -6,23 +6,35 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('order', '0001_initial'),
+        ("order", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='order',
-            name='address',
-            field=models.TextField(blank=True, default='', verbose_name='Адрес доставки'),
+            model_name="order",
+            name="address",
+            field=models.TextField(
+                blank=True, default="", verbose_name="Адрес доставки"
+            ),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='city',
-            field=models.CharField(blank=True, default='', max_length=128, verbose_name='Название города доставки'),
+            model_name="order",
+            name="city",
+            field=models.CharField(
+                blank=True,
+                default="",
+                max_length=128,
+                verbose_name="Название города доставки",
+            ),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='full_name',
-            field=models.CharField(blank=True, default='', max_length=128, verbose_name='Полное имя покупателя'),
+            model_name="order",
+            name="full_name",
+            field=models.CharField(
+                blank=True,
+                default="",
+                max_length=128,
+                verbose_name="Полное имя покупателя",
+            ),
         ),
     ]

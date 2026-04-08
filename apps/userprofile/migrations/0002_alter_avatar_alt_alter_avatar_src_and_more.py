@@ -8,29 +8,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('userprofile', '0001_initial'),
+        ("userprofile", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='avatar',
-            name='alt',
-            field=models.CharField(max_length=128, verbose_name='Описание изображения'),
+            model_name="avatar",
+            name="alt",
+            field=models.CharField(max_length=128, verbose_name="Описание изображения"),
         ),
         migrations.AlterField(
-            model_name='avatar',
-            name='src',
-            field=models.ImageField(default='avatars/default.png', upload_to='avatars/', verbose_name='Файл изображения'),
+            model_name="avatar",
+            name="src",
+            field=models.ImageField(
+                default="avatars/default.png",
+                upload_to="avatars/",
+                verbose_name="Файл изображения",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='balance',
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=10, verbose_name='Баланс пользователя'),
+            model_name="profile",
+            name="balance",
+            field=models.DecimalField(
+                decimal_places=2,
+                default=0,
+                max_digits=10,
+                verbose_name="Баланс пользователя",
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            model_name="profile",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="profile",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Пользователь",
+            ),
         ),
     ]

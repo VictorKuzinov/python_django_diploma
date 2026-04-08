@@ -1,6 +1,6 @@
 import json
-import pytest
 
+import pytest
 from django.contrib.auth.models import User
 from rest_framework import status
 
