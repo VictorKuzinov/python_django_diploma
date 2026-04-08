@@ -136,3 +136,61 @@ def test_payment_for_nonexistent_order_returns_404(auth_client):
     )
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_payment_success_decrements_stock(auth_client, unpaid_order):
+    """
+    Проверяет, что успешная оплата заказа:
+
+    - возвращает статус 200
+    - переводит заказ в статус PAID
+    - уменьшает остаток товара на складе
+    """
+    item = unpaid_order.items.first()
+    product = item.product
+    initial_count = product.count
+
+    response = auth_client.post(
+        f"/api/payment/{unpaid_order.id}",
+        data={"number": "12345678"},
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_200_OK
+
+    unpaid_order.refresh_from_db()
+    product.refresh_from_db()
+
+    assert unpaid_order.status == OrderStatus.PAID
+    assert product.count == initial_count - item.count
+
+
+def test_payment_fails_if_not_enough_stock(auth_client, unpaid_order):
+    """
+    Проверяет, что при недостаточном количестве товара на складе:
+
+    - оплата возвращает статус 400
+    - заказ переводится в статус FAILED
+    - остаток товара на складе не изменяется
+    - сохраняется текст ошибки
+    """
+    item = unpaid_order.items.first()
+    product = item.product
+
+    product.count = 0
+    product.save(update_fields=["count"])
+
+    response = auth_client.post(
+        f"/api/payment/{unpaid_order.id}",
+        data={"number": "12345678"},
+        format="json",
+    )
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    unpaid_order.refresh_from_db()
+    product.refresh_from_db()
+
+    assert unpaid_order.status == OrderStatus.FAILED
+    assert unpaid_order.payment_error == "Недостаточно товара на складе."
+    assert product.count == 0
