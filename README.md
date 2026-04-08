@@ -2,13 +2,35 @@
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Django](https://img.shields.io/badge/django-5.2-green)
+![DRF](https://img.shields.io/badge/DRF-REST-red)
+![Status](https://img.shields.io/badge/status-completed-brightgreen)
 
-Дипломный проект интернет-магазина на Django.
+## 📌 О проекте
 
-Проект реализует backend API для frontend-приложения Megano.
+Backend API интернет-магазина **Megano**, реализованный на Django и Django REST Framework.
 
------
+Проект включает:
+- каталог товаров
+- корзину
+- оформление заказа
+- оплату
+- профиль пользователя
 
+Используется готовый frontend, взаимодействующий через REST API.
+---------------------------------------------------------------------------
+
+# ⚙ Используемые технологии
+
+- Python 3.12
+- Django 5.2
+- Django REST Framework
+- django-environ
+- SQLite
+- Frontend-пакет diploma-frontend
+- Pytest
+- isort / flake8 (линтеры)
+
+---
 ## Реализованный функционал
 
 ### Страница товара (Product Detail)
@@ -106,7 +128,7 @@ Endpoint: `/api/banners`
 ## 1. Клонировать репозиторий
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/VictorKuzinov/python_django_diploma.git
 cd python_django_diploma
 ```
 
@@ -502,18 +524,6 @@ GET  /api/orders/history
 - тестирование API
 - проверка воспроизводимости проекта
 - подготовка финального MR
-
-------------------------------------------------------------------------
-
-# ⚙ Используемые технологии
-
-- Python 3.12
-- Django 5.2
-- Django REST Framework
-- django-environ
-- SQLite
-- PostgreSQL (планируется)
-- Frontend-пакет diploma-frontend
 
 ------------------------------------------------------------------------
 
