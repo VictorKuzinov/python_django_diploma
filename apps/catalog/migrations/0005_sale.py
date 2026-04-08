@@ -7,24 +7,53 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0004_alter_review_options_product_limited_edition_and_more'),
+        ("catalog", "0004_alter_review_options_product_limited_edition_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Sale',
+            name="Sale",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, verbose_name='Название акции')),
-                ('sale_price', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Цена со скидкой')),
-                ('date_from', models.DateTimeField(verbose_name='Дата начала акции')),
-                ('date_to', models.DateTimeField(verbose_name='Дата окончания акции')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания акции')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='sales', to='catalog.product', verbose_name='Товар')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=100, verbose_name="Название акции"),
+                ),
+                (
+                    "sale_price",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Цена со скидкой"
+                    ),
+                ),
+                ("date_from", models.DateTimeField(verbose_name="Дата начала акции")),
+                ("date_to", models.DateTimeField(verbose_name="Дата окончания акции")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания акции"
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sales",
+                        to="catalog.product",
+                        verbose_name="Товар",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Акция',
-                'verbose_name_plural': 'Акции',
+                "verbose_name": "Акция",
+                "verbose_name_plural": "Акции",
             },
         ),
     ]

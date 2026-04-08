@@ -1,15 +1,15 @@
 from django.urls import path
 
 from .views import (
-    CategoryListView,
-    CatalogListView,
-    TagListView,
-    ProductDetailView,
-    ReviewCreateView,
-    ProductPopularView,
-    ProductLimitedView,
-    SaleListView,
     BannerListView,
+    CatalogListView,
+    CategoryListView,
+    ProductDetailView,
+    ProductLimitedView,
+    ProductPopularView,
+    ReviewCreateView,
+    SaleListView,
+    TagListView,
 )
 
 urlpatterns = [
@@ -19,7 +19,7 @@ urlpatterns = [
     path("catalog/", CatalogListView.as_view()),
     path("tags", TagListView.as_view(), name="tags"),
     path("tags/", TagListView.as_view()),
-    path("banners", BannerListView.as_view(), name='banners'),
+    path("banners", BannerListView.as_view(), name="banners"),
     path("banners/", BannerListView.as_view()),
     path("product/<int:pk>", ProductDetailView.as_view(), name="product-detail"),
     path("product/<int:pk>/", ProductDetailView.as_view()),

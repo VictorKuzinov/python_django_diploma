@@ -1,15 +1,7 @@
 from django.contrib import admin
 from django.utils import timezone
 
-from .models import (
-    Category,
-    Product,
-    ProductImage,
-    Tag,
-    Review,
-    Specification,
-    Sale,
-)
+from .models import Category, Product, ProductImage, Review, Sale, Specification, Tag
 
 admin.site.register(ProductImage)
 admin.site.register(Tag)
@@ -27,7 +19,10 @@ class CategoryAdmin(admin.ModelAdmin):
         "is_active",
     )
     list_display_links = ("title", "id")
-    list_filter = ("parent", "is_active",)
+    list_filter = (
+        "parent",
+        "is_active",
+    )
     ordering = ("title",)
     search_fields = ("title",)
 
@@ -125,12 +120,7 @@ class ReviewAdmin(admin.ModelAdmin):
         "product__category",
         "date",
     )
-    search_fields = (
-        "author",
-        "email",
-        "text",
-        "product__title"
-    )
+    search_fields = ("author", "email", "text", "product__title")
     ordering = ("-date",)
 
     def short_text(self, obj):
@@ -159,16 +149,8 @@ class SaleAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_display_links = ("id", "title")
-    list_filter = (
-        "date_from",
-        "date_to",
-        "created_at"
-    )
-    search_fields = (
-        "title",
-        "product__title",
-        "product__category__title"
-    )
+    list_filter = ("date_from", "date_to", "created_at")
+    search_fields = ("title", "product__title", "product__category__title")
     ordering = ("-created_at",)
 
     def is_active(self, obj):

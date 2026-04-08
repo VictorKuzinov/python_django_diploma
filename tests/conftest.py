@@ -1,12 +1,11 @@
 import pytest
-from django.utils import timezone
-
-from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.utils import timezone
+from rest_framework.test import APIClient
 
-from apps.catalog.models import Category, Product, Sale, Tag, Review
-from apps.order.models import Order, OrderItem, DeliverySettings
+from apps.catalog.models import Category, Product, Sale, Tag
+from apps.order.models import DeliverySettings, Order, OrderItem
 from apps.userprofile.models import Profile
 
 
@@ -33,9 +32,7 @@ def auth_client(user):
 
 @pytest.fixture
 def category(db):
-    return Category.objects.create(
-        title="Тест категория"
-    )
+    return Category.objects.create(title="Тест категория")
 
 
 @pytest.fixture
@@ -56,6 +53,7 @@ def delivery_settings(db):
         normal_delivery_price=200,
         free_delivery_threshold=2000,
     )
+
 
 @pytest.fixture
 def sale(db, product):
@@ -96,6 +94,7 @@ def order(db, user, product):
         count=1,
     )
     return order
+
 
 @pytest.fixture
 def child_category(db, category):
@@ -215,6 +214,7 @@ def expired_sale(db, product):
         date_to=timezone.now() - timezone.timedelta(days=5),
     )
 
+
 @pytest.fixture
 def another_user(db):
     return User.objects.create_user(
@@ -260,6 +260,7 @@ def large_image_file():
         content=b"a" * (2 * 1024 * 1024 + 1),
         content_type="image/jpeg",
     )
+
 
 @pytest.fixture
 def unpaid_order(db, user, product):

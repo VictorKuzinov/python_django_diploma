@@ -1,9 +1,9 @@
 from django.contrib.auth import update_session_auth_hash
-from rest_framework.views import APIView
+from rest_framework import permissions, status
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework.views import APIView
 
-from .models import Profile, Avatar
+from .models import Avatar, Profile
 from .serializers import ProfileSerializer
 
 
@@ -40,8 +40,7 @@ class ProfileView(APIView):
         """
 
         profile, created = Profile.objects.get_or_create(
-            user=request.user,
-            defaults={"fullName": request.user.username}
+            user=request.user, defaults={"fullName": request.user.username}
         )
 
         serializer = ProfileSerializer(profile)
@@ -64,15 +63,10 @@ class ProfileView(APIView):
         """
 
         profile, created = Profile.objects.get_or_create(
-            user=request.user,
-            defaults={"fullName": request.user.username}
+            user=request.user, defaults={"fullName": request.user.username}
         )
 
-        serializer = ProfileSerializer(
-            profile,
-            data=request.data,
-            partial=True
-        )
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
@@ -111,8 +105,7 @@ class ProfileAvatarView(APIView):
         """
 
         profile, created = Profile.objects.get_or_create(
-            user=request.user,
-            defaults={"fullName": request.user.username}
+            user=request.user, defaults={"fullName": request.user.username}
         )
 
         avatar_file = request.FILES.get("avatar")
@@ -134,7 +127,7 @@ class ProfileAvatarView(APIView):
         if avatar_file.size > 2 * 1024 * 1024:
             return Response(
                 {"error": "Файл слишком большой. Максимум 2 МБ."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         # если у профиля уже есть аватар — обновляем его
@@ -143,10 +136,7 @@ class ProfileAvatarView(APIView):
             profile.avatar.alt = avatar_file.name
             profile.avatar.save()
         else:
-            avatar = Avatar.objects.create(
-                src=avatar_file,
-                alt=avatar_file.name
-            )
+            avatar = Avatar.objects.create(src=avatar_file, alt=avatar_file.name)
             profile.avatar = avatar
             profile.save()
 
@@ -158,8 +148,7 @@ class ProfileAvatarView(APIView):
         """
 
         profile, created = Profile.objects.get_or_create(
-            user=request.user,
-            defaults={"fullName": request.user.username}
+            user=request.user, defaults={"fullName": request.user.username}
         )
 
         serializer = ProfileSerializer(profile)
@@ -202,8 +191,7 @@ class ProfilePasswordView(APIView):
 
         if not request.user.check_password(current_password):
             return Response(
-                {"error": "Неверный текущий пароль"},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "Неверный текущий пароль"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         request.user.set_password(new_password)

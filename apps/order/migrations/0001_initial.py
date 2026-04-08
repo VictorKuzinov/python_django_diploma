@@ -10,45 +10,160 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('catalog', '0004_alter_review_options_product_limited_edition_and_more'),
+        ("catalog", "0004_alter_review_options_product_limited_edition_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full_name', models.CharField(max_length=128, verbose_name='Полное имя покупателя')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True, verbose_name='Email')),
-                ('phone', models.CharField(blank=True, max_length=20, null=True, verbose_name='Номер телефона')),
-                ('delivery_type', models.CharField(choices=[('normal', 'Обычная'), ('express', 'Экспресс')], default='normal', max_length=10, verbose_name='Способ доставки')),
-                ('payment_type', models.CharField(choices=[('online', 'Онлайн'), ('someone', 'Со счета')], default='online', max_length=10, verbose_name='Способ оплаты')),
-                ('city', models.CharField(max_length=128, verbose_name='Название города доставки')),
-                ('address', models.TextField(verbose_name='Адрес доставки')),
-                ('status', models.CharField(choices=[('new', 'Новый'), ('paid', 'Оплачен'), ('failed', 'Ошибка оплаты')], default='new', max_length=15, verbose_name='Статус заказа')),
-                ('total_cost', models.DecimalField(decimal_places=2, default=0, max_digits=16, verbose_name='Итоговая сумма заказа')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата и время создания заказа')),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Покупатель')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "full_name",
+                    models.CharField(
+                        max_length=128, verbose_name="Полное имя покупателя"
+                    ),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True, max_length=254, null=True, verbose_name="Email"
+                    ),
+                ),
+                (
+                    "phone",
+                    models.CharField(
+                        blank=True,
+                        max_length=20,
+                        null=True,
+                        verbose_name="Номер телефона",
+                    ),
+                ),
+                (
+                    "delivery_type",
+                    models.CharField(
+                        choices=[("normal", "Обычная"), ("express", "Экспресс")],
+                        default="normal",
+                        max_length=10,
+                        verbose_name="Способ доставки",
+                    ),
+                ),
+                (
+                    "payment_type",
+                    models.CharField(
+                        choices=[("online", "Онлайн"), ("someone", "Со счета")],
+                        default="online",
+                        max_length=10,
+                        verbose_name="Способ оплаты",
+                    ),
+                ),
+                (
+                    "city",
+                    models.CharField(
+                        max_length=128, verbose_name="Название города доставки"
+                    ),
+                ),
+                ("address", models.TextField(verbose_name="Адрес доставки")),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("new", "Новый"),
+                            ("paid", "Оплачен"),
+                            ("failed", "Ошибка оплаты"),
+                        ],
+                        default="new",
+                        max_length=15,
+                        verbose_name="Статус заказа",
+                    ),
+                ),
+                (
+                    "total_cost",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0,
+                        max_digits=16,
+                        verbose_name="Итоговая сумма заказа",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата и время создания заказа"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Покупатель",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Заказ',
-                'verbose_name_plural': 'Заказы',
-                'ordering': ['-created_at'],
+                "verbose_name": "Заказ",
+                "verbose_name_plural": "Заказы",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='OrderItem',
+            name="OrderItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=16, verbose_name='Цена на момент заказа')),
-                ('count', models.PositiveIntegerField(default=1, verbose_name='Количество')),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='order.order', verbose_name='Заказ')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.product', verbose_name='Товар')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0,
+                        max_digits=16,
+                        verbose_name="Цена на момент заказа",
+                    ),
+                ),
+                (
+                    "count",
+                    models.PositiveIntegerField(default=1, verbose_name="Количество"),
+                ),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="order.order",
+                        verbose_name="Заказ",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="catalog.product",
+                        verbose_name="Товар",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Позиция заказа',
-                'verbose_name_plural': 'Позиции заказа',
+                "verbose_name": "Позиция заказа",
+                "verbose_name_plural": "Позиции заказа",
             },
         ),
     ]

@@ -1,21 +1,37 @@
-from django.conf import settings
+from django.utils import timezone
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-from django.utils import timezone
 
-from .models import (
-    Order,
-    OrderItem,
-    Product,
-    DeliverySettings,
-)
 from apps.catalog.models import Sale
+
+from .models import DeliverySettings, Order, OrderItem, Product
 from .serializers import OrderSerializer
 
 
 class OrderView(ViewSet):
+    """
+    ViewSet для работы с заказами пользователя.
+
+    Поддерживает:
+    - получение списка заказов текущего пользователя
+    - создание заказа на основе корзины из session
+    - получение детальной информации о заказе
+    - подтверждение заказа с пересчётом итоговой стоимости
+
+    Особенности:
+    - корзина хранится в session
+    - цена товара фиксируется на момент оформления заказа
+    - если на товар действует акция, в заказ записывается sale_price
+    - стоимость доставки рассчитывается при подтверждении заказа
+    """
+
     def list(self, request):
+        """
+        Возвращает список заказов текущего авторизованного пользователя.
+
+        Неавторизованному пользователю возвращается пустой список и статус 400.
+        """
         if not request.user.is_authenticated:
             return Response([], status=400)
 
@@ -25,15 +41,32 @@ class OrderView(ViewSet):
         return Response(serializer.data, status=200)
 
     def create(self, request):
+        """
+        Создаёт заказ на основе текущей корзины пользователя.
+
+        Логика:
+        - получает корзину из session
+        - создаёт заказ
+        - создаёт позиции заказа (OrderItem)
+        - фиксирует актуальную цену товара на момент оформления:
+            - sale_price, если есть активная акция
+            - обычную цену товара, если акции нет
+
+        Возвращает:
+        - orderId созданного заказа
+        - 400, если корзина пуста
+        """
         basket = request.session.get("basket", {})
         if not basket:
             return Response({"error": "Basket is empty"}, status=400)
+
         product_ids = [int(pid) for pid in basket.keys()]
         products = Product.objects.filter(id__in=product_ids)
 
         order = Order.objects.create(
             user=request.user if request.user.is_authenticated else None
         )
+
         if request.user.is_authenticated:
             order.email = request.user.email
             order.full_name = request.user.username or request.user.first_name
@@ -43,30 +76,58 @@ class OrderView(ViewSet):
 
         for product in products:
             count = basket.get(str(product.id), 0)
-            active_sale = Sale.objects.filter(product=product, date_from__lte=date_now, date_to__gte=date_now).first()
+            active_sale = Sale.objects.filter(
+                product=product, date_from__lte=date_now, date_to__gte=date_now
+            ).first()
+
             if active_sale:
                 actual_price = active_sale.sale_price
             else:
                 actual_price = product.price
 
             OrderItem.objects.create(
-                order=order,
-                product=product,
-                price=actual_price,
-                count=count
+                order=order, product=product, price=actual_price, count=count
             )
 
             order.total_cost += actual_price * count
+
         order.save()
         return Response({"orderId": order.id}, status=200)
 
     def retrieve(self, request, pk=None):
+        """
+        Возвращает детальную информацию о заказе по его идентификатору.
+        """
         order = get_object_or_404(Order, id=pk)
 
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=200)
 
     def confirm(self, request, pk=None):
+        """
+        Подтверждает заказ и пересчитывает его итоговую стоимость.
+
+        Обновляет:
+        - ФИО
+        - email
+        - телефон
+        - способ доставки
+        - способ оплаты
+        - город
+        - адрес
+
+        Логика расчёта доставки:
+        - express: фиксированная стоимость express_delivery_price
+        - normal:
+            - если сумма товаров меньше порога free_delivery_threshold,
+              добавляется normal_delivery_price
+            - иначе доставка бесплатна
+
+        Если настройки доставки отсутствуют, используются значения по умолчанию:
+        - express = 500
+        - normal = 200
+        - threshold = 2000
+        """
         order = get_object_or_404(Order, id=pk)
 
         order.full_name = request.data.get("fullName", "") or ""

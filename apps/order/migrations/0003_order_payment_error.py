@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('order', '0002_alter_order_address_alter_order_city_and_more'),
+        ("order", "0002_alter_order_address_alter_order_city_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='payment_error',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Текст ошибки платежа'),
+            model_name="order",
+            name="payment_error",
+            field=models.CharField(
+                blank=True,
+                default="",
+                max_length=255,
+                verbose_name="Текст ошибки платежа",
+            ),
         ),
     ]

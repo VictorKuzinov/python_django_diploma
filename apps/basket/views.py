@@ -7,7 +7,27 @@ from apps.catalog.serializers import ProductSerializer
 
 
 class BasketView(ViewSet):
+    """
+    ViewSet для работы с корзиной пользователя.
+
+    Корзина хранится в сессии пользователя (request.session) в виде словаря:
+    {
+        "product_id": count
+    }
+
+    Поддерживает операции:
+    - получение содержимого корзины
+    - добавление товара
+    - изменение количества товара
+    - удаление товара (полностью или частично)
+    """
+
     def _serialize_basket(self, basket):
+        """
+        Преобразует корзину из session в сериализованный список товаров.
+
+        Для каждого товара подменяет поле count значением из корзины.
+        """
         if not basket:
             return []
 
@@ -21,10 +41,26 @@ class BasketView(ViewSet):
         return serializer.data
 
     def list(self, request):
+        """
+        Возвращает текущее содержимое корзины.
+
+        GET /api/basket
+        """
         basket = request.session.get("basket", {})
         return Response(self._serialize_basket(basket), status=status.HTTP_200_OK)
 
     def create(self, request):
+        """
+        Добавляет товар в корзину или увеличивает его количество.
+
+        POST /api/basket
+
+        Ожидает:
+        {
+            "id": product_id,
+            "count": количество (опционально, по умолчанию 1)
+        }
+        """
         basket = request.session.get("basket", {})
         product_id = request.data.get("id")
 
@@ -50,6 +86,19 @@ class BasketView(ViewSet):
         return Response(self._serialize_basket(basket), status=status.HTTP_200_OK)
 
     def partial_update(self, request):
+        """
+        Обновляет количество товара в корзине.
+
+        PATCH /api/basket
+
+        Ожидает:
+        {
+            "id": product_id,
+            "count": новое количество
+        }
+
+        Если count <= 0 — товар удаляется из корзины.
+        """
         basket = request.session.get("basket", {})
         product_id = request.data.get("id")
         count = request.data.get("count")
@@ -75,6 +124,21 @@ class BasketView(ViewSet):
         return Response(self._serialize_basket(basket), status=status.HTTP_200_OK)
 
     def destroy(self, request):
+        """
+        Удаляет товар из корзины.
+
+        DELETE /api/basket
+
+        Возможны два сценария:
+        - если count не передан → товар удаляется полностью
+        - если count передан → уменьшается количество
+
+        Ожидает:
+        {
+            "id": product_id,
+            "count": количество (опционально)
+        }
+        """
         basket = request.session.get("basket", {})
         product_id = request.data.get("id")
         count = request.data.get("count")

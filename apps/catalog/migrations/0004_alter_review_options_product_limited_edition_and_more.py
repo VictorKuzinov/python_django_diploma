@@ -6,27 +6,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0003_review_specification'),
+        ("catalog", "0003_review_specification"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='review',
-            options={'ordering': ['-date'], 'verbose_name': 'Отзыв', 'verbose_name_plural': 'Отзывы'},
+            name="review",
+            options={
+                "ordering": ["-date"],
+                "verbose_name": "Отзыв",
+                "verbose_name_plural": "Отзывы",
+            },
         ),
         migrations.AddField(
-            model_name='product',
-            name='limited_edition',
-            field=models.BooleanField(default=False, verbose_name='Ограниченный тираж'),
+            model_name="product",
+            name="limited_edition",
+            field=models.BooleanField(default=False, verbose_name="Ограниченный тираж"),
         ),
         migrations.AddField(
-            model_name='product',
-            name='sold_count',
-            field=models.IntegerField(default=0, verbose_name='Количество покупок'),
+            model_name="product",
+            name="sold_count",
+            field=models.IntegerField(default=0, verbose_name="Количество покупок"),
         ),
         migrations.AddField(
-            model_name='product',
-            name='sort_index',
-            field=models.IntegerField(default=0, verbose_name='Индекс сортировки'),
+            model_name="product",
+            name="sort_index",
+            field=models.IntegerField(default=0, verbose_name="Индекс сортировки"),
         ),
     ]
